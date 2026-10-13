@@ -1,3 +1,7 @@
+/* carch = c arch */
+/* es la funcion que se llama desde entry.asm */
+/* el nombre carch no es muy bueno, probablemente sea cambiado */
+
 #include "grub/multiboot.h"
 #include <arch.h>
 #include <dev/fb.h>

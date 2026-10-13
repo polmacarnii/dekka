@@ -1,0 +1,4 @@
+Cosas por hacer:
+- IDT, IRQ, esas cosas
+- Driver para teclado
+- Hacer que se pueda imprimir en colores y que kernel/dev/drivers.c los use
