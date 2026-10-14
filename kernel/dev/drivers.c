@@ -25,7 +25,7 @@ void driver_register(struct driver *drv) {
 }
 
 void drivers_init(void) {
-  print("Initializing Drivers");
+  print("Initializing Drivers\n");
   for (size_t i = 0; i < driver_count; i++) {
     struct driver *drv = drivers[i];
 
