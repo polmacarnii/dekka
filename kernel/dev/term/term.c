@@ -32,6 +32,14 @@ void term_set_color(rgb_t fg, rgb_t bg) {
   term_bg = bg;
 }
 
+void term_get_color(rgb_t *fg, rgb_t *bg) {
+  if (fg != NULL)
+    *fg = term_fg;
+
+  if (bg != NULL)
+    *bg = term_bg;
+}
+
 void term_putc(char c) {
   if (term_w == 0 || term_h == 0)
     return;

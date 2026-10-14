@@ -4,6 +4,6 @@ section .text
 global halt
 
 halt:
-    cli
+    sti; por si hace falta esperar interrupciones
     hlt
     ret

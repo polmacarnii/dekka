@@ -8,4 +8,8 @@ void term_putc(char c);
 void term_puts(const char *s);
 void term_set_color(rgb_t fg, rgb_t bg);
 
+/* Lee el color con el que se esta escribiendo ahora, para poder restaurarlo
+ * despues de cambiarlo temporalmente */
+void term_get_color(rgb_t *fg, rgb_t *bg);
+
 #endif

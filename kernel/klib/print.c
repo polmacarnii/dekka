@@ -103,3 +103,26 @@ void print_fmt(const char *fmt, ...) {
   vprint_fmt(fmt, ap);
   va_end(ap);
 }
+
+void print_color(rgb_t fg, const char *s) {
+  rgb_t old_fg, old_bg;
+
+  term_get_color(&old_fg, &old_bg);
+  term_set_color(fg, old_bg);
+  term_puts(s);
+  term_set_color(old_fg, old_bg);
+}
+
+void print_colorf(rgb_t fg, const char *fmt, ...) {
+  va_list ap;
+  rgb_t old_fg, old_bg;
+
+  term_get_color(&old_fg, &old_bg);
+  term_set_color(fg, old_bg);
+
+  va_start(ap, fmt);
+  vprint_fmt(fmt, ap);
+  va_end(ap);
+
+  term_set_color(old_fg, old_bg);
+}

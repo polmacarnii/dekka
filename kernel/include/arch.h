@@ -21,4 +21,14 @@ typedef struct {
 
 void halt();
 
+typedef void (*irq_handler_t)(void);
+
+/* Registra el handler de una linea IRQ (0..15) */
+int irq_register(uint8_t irq, irq_handler_t handler);
+
+int irq_enable(uint8_t irq);
+
+void interrupts_enable(void);
+void interrupts_disable(void);
+
 #endif

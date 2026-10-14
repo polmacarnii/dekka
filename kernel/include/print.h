@@ -1,6 +1,7 @@
 #ifndef PRINT_H
 #define PRINT_H
 
+#include <arch.h>
 #include <arg.h>
 #include <types.h>
 
@@ -26,5 +27,10 @@ void print_ptr(const void *p);
  * Soporta: %s %c %d %i %u %x %X %p %% */
 void print_fmt(const char *fmt, ...);
 void vprint_fmt(const char *fmt, va_list ap);
+
+/* Escribe texto en el color indicado y despues restaura el que habia. Solo
+ * cambia el foreground y el fondo se deja como estaba */
+void print_color(rgb_t fg, const char *s);
+void print_colorf(rgb_t fg, const char *fmt, ...);
 
 #endif

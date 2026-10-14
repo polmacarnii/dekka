@@ -6,6 +6,7 @@
 #include <arch.h>
 #include <dev/fb.h>
 #include <dev/term.h>
+#include <interrupts.h>
 
 void kmain(void);
 
@@ -26,6 +27,10 @@ void carch(uint32_t magic, multiboot_info_t *bootinfo) {
              bootinfo->framebuffer_pitch);
 
   term_init();
+
+  gdt_init();
+  idt_init();
+  irq_init();
 
   kmain();
 }
