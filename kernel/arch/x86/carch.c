@@ -2,8 +2,8 @@
 /* es la funcion que se llama desde entry.asm */
 /* el nombre carch no es muy bueno, probablemente sea cambiado */
 
-#include "grub/multiboot.h"
 #include <arch.h>
+#include <bootinfo.h>
 #include <dev/fb.h>
 #include <dev/term.h>
 #include <interrupts.h>
@@ -15,16 +15,15 @@ static void hang(void) {
     halt();
 }
 
-void carch(uint32_t magic, multiboot_info_t *bootinfo) {
-  if (magic != MULTIBOOT_BOOTLOADER_MAGIC)
+void carch(uint32_t magic, boot_info_t *bootinfo) {
+  if (magic != BOOT_MAGIC || bootinfo->magic != BOOT_MAGIC)
     hang();
 
-  if (bootinfo->framebuffer_type != 1 || bootinfo->framebuffer_bpp != 32)
+  if (bootinfo->fb_type != 1 || bootinfo->fb_bpp != 32)
     hang();
 
-  video_init((uint32_t *)(uintptr_t)bootinfo->framebuffer_addr,
-             bootinfo->framebuffer_width, bootinfo->framebuffer_height,
-             bootinfo->framebuffer_pitch);
+  video_init((uint32_t *)(uintptr_t)bootinfo->fb_addr, bootinfo->fb_width,
+             bootinfo->fb_height, bootinfo->fb_pitch);
 
   term_init();
 

@@ -6,13 +6,18 @@ Another try of making an os.
 - tcc with crosscompiler for i386-tcc
 - nasm
 - i686-elf-ld
-- grub
+- xorriso
 - mk
 
 ### Compiling
 ```
 mk
 mk iso
+```
+
+## Running
+```
+qemu-system-i386 -cdrom build/dekka.iso
 ```
 
 ## Developing

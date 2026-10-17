@@ -38,8 +38,8 @@ static void gdt_set_gate(uint8_t num, uint32_t base, uint32_t limit,
 static void gdt_load(void) {
   __asm__ volatile("lgdt %0" : : "m"(gdt_ptr));
 
-  /* Toca recargar los selectores de segmento porque el de GRUB ya no existe en
-   * la nueva tabla */
+  /* Toca recargar los selectores de segmento porque los del bootloader ya no
+   * existen en la nueva tabla */
   __asm__ volatile("movw $0x10, %%ax\n\t"
                    "movw %%ax, %%ds\n\t"
                    "movw %%ax, %%es\n\t"

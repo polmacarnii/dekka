@@ -5,7 +5,6 @@ SECTIONS{
     . = 0x100000;
 
     .text : {
-        *(.multiboot*)
         *(.text .text.*)
     } . = ALIGN(0x1000);
 
@@ -30,3 +29,4 @@ SECTIONS{
         *(.note*)
     }
 }
+

@@ -51,9 +51,9 @@ kernel_entry:
 
     and esp, -16 ; alinear a 16 bytes
 
-    ; Parametros a arch()
+    ; Parametros a carch()
     ; EAX = magic
-    ; EBX = multiboot_info_t*
+    ; EBX = boot_info_t*
     push ebx
     push eax
 
