@@ -39,18 +39,18 @@ static const char *exception_names[32] = {"Divide Error",
                                           "Reserved"};
 
 void exception_handler_c(struct regs *r) {
-  uint32_t int_no = r->int_no;
+    uint32_t int_no = r->int_no;
 
-  print_colorf(COLOR_RED, "\n[EXCEPTION] ");
+    print_colorf(COLOR_RED, "\n[EXCEPTION] ");
 
-  if (int_no < ISR_COUNT)
-    print(exception_names[int_no]);
-  else
-    print("Unknown exception");
+    if (int_no < ISR_COUNT)
+        print(exception_names[int_no]);
+    else
+        print("Unknown exception");
 
-  print_fmt(" (vector %d, code error %d)\n", (int32_t)int_no,
-            (int32_t)r->err_code);
+    print_fmt(" (vector %d, code error %d)\n", (int32_t)int_no,
+              (int32_t)r->err_code);
 
-  /* No hay TSS ni cambio de pila todavia, asi que no hay de donde volver */
-  panic("Unhandled exception");
+    /* No hay TSS ni cambio de pila todavia, asi que no hay de donde volver */
+    panic("Unhandled exception");
 }

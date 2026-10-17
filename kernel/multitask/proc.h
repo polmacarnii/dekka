@@ -15,12 +15,12 @@ typedef struct Proc Proc;
 
 /* descriptor de hilo del kernel, todo en ring 0 por ahora */
 struct Proc {
-  uchar *sp;            /* puntero de pila guardado por swtch */
-  int state;            /* uno de los estados de arriba */
-  void *chan;           /* canal por el que duerme (reservado) */
-  Proc *next;           /* siguiente en la cola (reservado) */
-  void (*entry)(void);  /* punto de entrada del hilo */
-  uchar kstack[KSTACK]; /* pila de kernel del proceso */
+    uchar *sp;            /* puntero de pila guardado por swtch */
+    int state;            /* uno de los estados de arriba */
+    void *chan;           /* canal por el que duerme (reservado) */
+    Proc *next;           /* siguiente en la cola (reservado) */
+    void (*entry)(void);  /* punto de entrada del hilo */
+    uchar kstack[KSTACK]; /* pila de kernel del proceso */
 };
 
 extern Proc *up;

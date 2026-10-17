@@ -6,16 +6,16 @@
 #include <types.h>
 
 struct idt_entry {
-  uint16_t base_low;
-  uint16_t selector;
-  uint8_t zero;
-  uint8_t flags;
-  uint16_t base_high;
+    uint16_t base_low;
+    uint16_t selector;
+    uint8_t zero;
+    uint8_t flags;
+    uint16_t base_high;
 } __attribute__((packed));
 
 struct idt_ptr {
-  uint16_t limit;
-  uint32_t base;
+    uint16_t limit;
+    uint32_t base;
 } __attribute__((packed));
 
 /* Los stubs de excepciones (isr.asm) y los de IRQs (irq.asm) */
@@ -92,27 +92,27 @@ static struct idt_ptr idtp;
  * menciono asi el layout es coherente */
 static void idt_set_gate(uint8_t num, uint32_t base, uint16_t selector,
                          uint8_t flags) {
-  idt[num].base_low = base & 0xFFFF;
-  idt[num].base_high = (base >> 16) & 0xFFFF;
-  idt[num].selector = selector;
-  idt[num].zero = 0;
-  idt[num].flags = flags;
+    idt[num].base_low = base & 0xFFFF;
+    idt[num].base_high = (base >> 16) & 0xFFFF;
+    idt[num].selector = selector;
+    idt[num].zero = 0;
+    idt[num].flags = flags;
 }
 
 void idt_init(void) {
-  memset(idt, 0, sizeof(idt));
+    memset(idt, 0, sizeof(idt));
 
-  for (int i = 0; i < ISR_COUNT; i++)
-    idt_set_gate(i, (uint32_t)(uintptr_t)isr_table[i], GDT_KERNEL_CS,
-                 IDT_FLAG_KERNEL);
+    for (int i = 0; i < ISR_COUNT; i++)
+        idt_set_gate(i, (uint32_t)(uintptr_t)isr_table[i], GDT_KERNEL_CS,
+                     IDT_FLAG_KERNEL);
 
-  /* El PIC se remapea en irq_init(), por eso las IRQs arrancan en 32 */
-  for (int i = 0; i < IRQ_COUNT; i++)
-    idt_set_gate(IRQ_BASE_VECTOR + i, (uint32_t)(uintptr_t)irq_table[i],
-                 GDT_KERNEL_CS, IDT_FLAG_KERNEL);
+    /* El PIC se remapea en irq_init(), por eso las IRQs arrancan en 32 */
+    for (int i = 0; i < IRQ_COUNT; i++)
+        idt_set_gate(IRQ_BASE_VECTOR + i, (uint32_t)(uintptr_t)irq_table[i],
+                     GDT_KERNEL_CS, IDT_FLAG_KERNEL);
 
-  idtp.limit = sizeof(idt) - 1;
-  idtp.base = (uint32_t)(uintptr_t)&idt;
+    idtp.limit = sizeof(idt) - 1;
+    idtp.base = (uint32_t)(uintptr_t)&idt;
 
-  idt_load(&idtp);
+    idt_load(&idtp);
 }

@@ -22,23 +22,23 @@
 static volatile uint32_t timer_ticks;
 
 static void timer_tick(void) {
-  timer_ticks++;
-  need_resched = 1;
+    timer_ticks++;
+    need_resched = 1;
 }
 
 void timer_init(void) {
-  uint32_t divisor = PIT_FREQUENCY / TIMER_HZ;
+    uint32_t divisor = PIT_FREQUENCY / TIMER_HZ;
 
-  /* El divisor se carga en dos bytes, primero el bajo y luego el alto, tal y
-   * como pide el protocolo del 8254 */
-  outb(PIT_COMMAND, PIT_CMD_CHANNEL0_SQUARE);
-  outb(PIT_CHANNEL0, (uint8_t)(divisor & 0xFF));
-  outb(PIT_CHANNEL0, (uint8_t)((divisor >> 8) & 0xFF));
+    /* El divisor se carga en dos bytes, primero el bajo y luego el alto, tal y
+     * como pide el protocolo del 8254 */
+    outb(PIT_COMMAND, PIT_CMD_CHANNEL0_SQUARE);
+    outb(PIT_CHANNEL0, (uint8_t)(divisor & 0xFF));
+    outb(PIT_CHANNEL0, (uint8_t)((divisor >> 8) & 0xFF));
 
-  /* Engancha el handler y desenmascara la IRQ0 en el PIC y a partir de aqui
-   * llegan ticks en cuanto se habiliten las interrupciones globales */
-  irq_register(0, timer_tick);
-  irq_enable(0);
+    /* Engancha el handler y desenmascara la IRQ0 en el PIC y a partir de aqui
+     * llegan ticks en cuanto se habiliten las interrupciones globales */
+    irq_register(0, timer_tick);
+    irq_enable(0);
 }
 
 uint32_t timer_get_ticks(void) { return timer_ticks; }
