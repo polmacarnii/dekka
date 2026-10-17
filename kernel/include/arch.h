@@ -31,4 +31,7 @@ int irq_enable(uint8_t irq);
 void interrupts_enable(void);
 void interrupts_disable(void);
 
+/* Multitarea */
+void swtch(uchar **old, uchar *new);
+
 #endif

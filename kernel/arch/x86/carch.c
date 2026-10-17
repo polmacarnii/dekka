@@ -7,6 +7,7 @@
 #include <dev/fb.h>
 #include <dev/term.h>
 #include <interrupts.h>
+#include <pit.h>
 
 void kmain(void);
 
@@ -30,6 +31,11 @@ void carch(uint32_t magic, boot_info_t *bootinfo) {
   gdt_init();
   idt_init();
   irq_init();
+
+  /* Timer necesita PIC remapeado para engancharse a la IRQ0, asi que deja el
+   * tick listo pero las interrupciones globales siguen apagadas hasta que kmain
+   * las prende */
+  timer_init();
 
   kmain();
 }

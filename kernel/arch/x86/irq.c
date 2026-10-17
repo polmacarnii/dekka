@@ -2,6 +2,7 @@
 #include <arch.h>
 #include <cpu.h>
 #include <interrupts.h>
+#include <proc.h>
 
 #define PIC1_CMD 0x20
 #define PIC1_DATA 0x21
@@ -22,7 +23,7 @@
 static void (*irq_routines[IRQ_COUNT])(void);
 
 /* El EOI va despues del handler, si se manda antes, el PIC puede volver a
- * entregar la misma IRQ al instante (es el caso de las de nivel). */
+ * entregar la misma IRQ al instante (es el caso de las de nivel) */
 static void pic_send_eoi(uint8_t irq) {
   if (irq >= PIC_RAW_BASE)
     outb(PIC2_CMD, PIC_EOI); /* primero el esclavo */
@@ -47,22 +48,22 @@ void irq_init(void) {
   outb(PIC1_DATA, PIC_RAW_MODE);
   outb(PIC2_DATA, PIC_RAW_MODE);
 
-  /* Por defecto dejar todo masked, cada driver desenmascara lo que necesita */
   outb(PIC1_DATA, 0xFF);
   outb(PIC2_DATA, 0xFF);
 }
 
 int irq_register(uint8_t irq, irq_handler_t handler) {
-  if (irq >= IRQ_COUNT || handler == NULL)
+  if (irq >= IRQ_COUNT || handler == NULL) {
     return -1;
-
+  }
   irq_routines[irq] = handler;
   return 0;
 }
 
 int irq_enable(uint8_t irq) {
-  if (irq >= IRQ_COUNT)
+  if (irq >= IRQ_COUNT) {
     return -1;
+  }
 
   if (irq >= PIC_RAW_BASE) {
     /* bit del esclavo */
@@ -96,5 +97,11 @@ void irq_handler_c(struct regs *r) {
   if (irq < IRQ_COUNT && irq_routines[irq] != NULL)
     irq_routines[irq]();
 
+  /* el EOI va antes de ceder el CPU, si se cambiara de contexto primero el
+   * PIC no recibe el acuse hasta que a este proceso le toque otra ve y se
+   * podria reentregar o bloquear la idt */
   pic_send_eoi(irq);
+
+  /* Tras el EOI, el timer puede haber pedido un cambio de contexto */
+  sched_tick();
 }

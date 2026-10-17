@@ -3,3 +3,7 @@ Cosas por hacer:
 - ata
 - vfs
 - filesystem
+- userspace
+- paginado
+- syscalls
+- cargador elf

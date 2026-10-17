@@ -57,8 +57,8 @@ void gdt_init(void) {
   gdt_ptr.limit = sizeof(gdt) - 1;
   gdt_ptr.base = (uint32_t)(uintptr_t)&gdt;
 
-  /* el descriptor 0 debe estar en 0, si no el CPU lo toma como selector valido
-   * y usa ese descriptor al referenciar el 0 */
+  /* el descriptor 0 debe estar en 0, si no el CPU lo toma como selector
+   * valido y usa ese descriptor al referenciar el 0 */
   gdt[GDT_NULL].base_low = 0;
   gdt[GDT_NULL].base_middle = 0;
   gdt[GDT_NULL].base_high = 0;

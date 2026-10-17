@@ -2,19 +2,20 @@ CC=i386-tcc
 LD=i686-elf-ld
 AS=nasm
 CFLAGS=-ffreestanding -nostdlib -nostdinc -fno-builtin
-CPPFLAGS=-Ikernel/include -Ikernel/arch/x86 -Iboot/x86
+CPPFLAGS=-Ikernel/include -Ikernel/arch/x86 -Ikernel/multitask -Iboot/x86
 
 OBJS = build/kernel/arch/x86/entry.o build/kernel/arch/x86/halt.o \
        build/kernel/arch/x86/carch.o build/kernel/kmain.o \
        build/kernel/arch/x86/gdt.o build/kernel/arch/x86/idt.o \
        build/kernel/arch/x86/irq.o build/kernel/arch/x86/isr.o \
-       build/kernel/arch/x86/cpu.o \
+       build/kernel/arch/x86/cpu.o build/kernel/arch/x86/pit.o \
        build/kernel/arch/x86/asm/cpu.o build/kernel/arch/x86/asm/irq.o \
-       build/kernel/arch/x86/asm/isr.o \
+       build/kernel/arch/x86/asm/isr.o build/kernel/arch/x86/switch.o \
        build/kernel/dev/fb/fb/fb.o build/kernel/dev/fb/fb/font.o \
        build/kernel/misc/font8x8.o build/kernel/klib/mem.o \
        build/kernel/klib/panic.o build/kernel/klib/print.o \
-       build/kernel/dev/term/term.o build/kernel/dev/drivers.o
+       build/kernel/dev/term/term.o build/kernel/dev/drivers.o \
+       build/kernel/multitask/proc.o
 
 BOOT_IMG = build/boot/boot.img
 
@@ -68,6 +69,7 @@ lsp:
 	printf '    - -ffreestanding\n    - -nostdlib\n    - -nostdinc\n    - -fno-builtin\n' >> .clangd
 	printf '    - -I'$PWD'/kernel/include\n' >> .clangd
 	printf '    - -I'$PWD'/kernel/arch/x86\n' >> .clangd
+	printf '    - -I'$PWD'/kernel/multitask\n' >> .clangd
 	printf '    - -I'$PWD'/boot/x86\n' >> .clangd
 	printf '    - --target=i386-none-elf\n' >> .clangd
 

@@ -46,11 +46,11 @@ void exception_handler_c(struct regs *r) {
   if (int_no < ISR_COUNT)
     print(exception_names[int_no]);
   else
-    print("interrupcion desconocida");
+    print("Unknown exception");
 
-  print_fmt(" (vector %d, codigo de error %d)\n", (int32_t)int_no,
+  print_fmt(" (vector %d, code error %d)\n", (int32_t)int_no,
             (int32_t)r->err_code);
 
   /* No hay TSS ni cambio de pila todavia, asi que no hay de donde volver */
-  panic("excepcion no manejada");
+  panic("Unhandled exception");
 }
