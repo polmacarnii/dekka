@@ -1,4 +1,14 @@
 Cosas por hacer:
+
+Pero que ya:
+- Documentar mejor el bootloader(Tinkerbell)
+- Terminar de diseñar la interfaz de discos
+- Driver ATA
+- Codigo en espacio de usuario
+- Paginado
+- Terminar de diseñar DKFS(e implementarlo)
+- Terminar el VFS(con soporte para archivos virtuales)
+
 - timer
 - ata
 - vfs
