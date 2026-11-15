@@ -7,12 +7,10 @@ Another try of making an os.
 - nasm
 - i686-elf-ld
 - xorriso
-- mk
 
 ### Compiling
-```
-mk
-mk iso
+```sh
+sh build.sh
 ```
 
 ## Running
